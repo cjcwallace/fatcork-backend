@@ -1,75 +1,74 @@
+import os
 import csv
 import sys
 import json
 
-file = sys.argv[1]
+from inventory.models import Cuvee, Vendor, Product, ProductType, ProductStatus
 
-cancellation_cols = {
-    'First name': None,
-    'Last name': None,
-    'E-Mail Address': None,
-    'Phone Number': None,
-    'Group name': None,
-    'Membership level name': None,
-    'Membership status': None,
-    'Created date': None,
-    'Cancelled at': None,
-    'Cancellation Request format & date': None,
-    'Length of membership': None,
-    'Cancellation reason': None,
-    'Shipping State/Province': None,
+# file = sys.argv[1]
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'products_export_1.csv')
+
+product_attrs = {
+
 }
 
-on_hold_cols = {
-    'First name': None,
-    'Last name': None,
-    'E-Mail Address': None,
-    'Phone Number': None,
-    'Group name': None,
-    'Membership level name': None,
-    'Membership status': None,
-    'Created date': None,
-    'On hold format & date': None,
-    'On Hold Reason': None,
-    'Status Changed At Date': None,
-    'Hold ends at': None,
-    'Shipping State/Province': None,
+product_types = {
+    'Standard': ProductType.STANDARD,
+    'Large Format': ProductType.LARGE_FORMAT,
+    'Half bottles': ProductType.HALF_BOTTLES,
 }
 
-# with open(file, newline='') as csvfile:
-#     reader = csv.reader(csvfile, delimiter=',')
-#     cols = next(reader)
-#     for i, item in enumerate(cols):
-#         if (item in cancellation_cols):
-#             cancellation_cols[item] = i
-#         if (item in on_hold_cols):
-#             on_hold_cols[item] = i
-#     for row in reader:
-#         if (row[on_hold_cols['Membership status']] == 'On Hold'):
-#             hold_time = str(on_hold_cols["Hold ends at"])
-#             print(type(hold_time))
-#             print(f'on hold until {row[on_hold_cols["Hold ends at"]]}')
-#         if (row[cancellation_cols['Membership status']] == 'Cancelled'):
-#             cancelled_date = cancellation_cols["Cancelled at"]
-#             print(f'cancelled on {row[cancellation_cols["Cancelled at"]]}')
-#         else:
-#             pass
+product_status = {
+    'Archived': ProductStatus.ARCHIVED,
+    'Draft': ProductStatus.DRAFT,
+    'Active': ProductStatus.ACTIVE,
+}
 
 col_attrs = {}
-types = []
-status = []
-with open(file, newline='') as csvfile:
+with open(filename, encoding="utf8", newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     cols = next(reader)
     for i, item in enumerate(cols):
         col_attrs[item] = i
     for row in reader:
-        if row[5] not in types:
-            types.append(row[5])
-        if row[49] not in status:
-            status.append(row[49])
+        handle = row[0]
+        title = row[1]
+        vendor = row[3]
+        product_category = row[4]
+        product_type = row[5]
+        tags = row[6]
+        published = row[7]
+        variant_sku = row[14]
+        variant_price = row[19]
+        variant_compare_at_price = row[20]
+        image_src = row[24]
+        status = row[49]
 
-# print(col_attrs)
-# print(list(col_attrs.keys()))
-print(types)
-print(status)
+        quit()
+
+        # if (product_type not in product_types):
+        #     continue
+
+        # vender_obj = Vendor.objects.get_or_create(name=vendor)
+        # status_obj = product_status[status]
+
+        # try:
+        #     cuvee = Cuvee.objects.get(handle=handle)
+        # except Cuvee.DoesNotExist:
+        #     cuvee = Cuvee.objects.create(
+        #         handle=handle,
+        #         title=title,
+        #         vendor=vender_obj,
+        #         product_category=product_category,
+        #         type=product_type,
+        #         published=published,
+        #         variant_sku=variant_sku,
+        #         variant_price=variant_price,
+        #         variant_compare_at_price=variant_compare_at_price,
+        #         image_src=image_src,
+        #         status=status_obj,
+        #     )
+
+
+print(json.dumps(col_attrs, indent=2))
