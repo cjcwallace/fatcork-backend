@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 fatcorkbackend/fatcorkbackend/dbpass.py
+fatcorkbackend/credentials.py
