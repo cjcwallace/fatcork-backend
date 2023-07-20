@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+# flake8: noqa
 
 from pathlib import Path
-from fatcorkbackend.dbpass import dbpass
+from credentials import dbpass, secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l%@7xlgf&=e_rwn-==2l6nb6!m2pr0ov1ok2d=x4%f$5_8x1$n'
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fatcorkbackend',
-    "phonenumber_field",
+    # 'fatcorkbackend',
+    'phonenumber_field',
     'inventory.apps.InventoryConfig'
 ]
 
@@ -78,13 +79,8 @@ WSGI_APPLICATION = 'fatcorkbackend.wsgi.application'
 
 DATABASES = {
     "default": {
-        # "ENGINE": "django.db.backends.postgresql",
-        # "OPTIONS": {
-        #     "service": "my_service",
-        #     "passfile": ".my_pgpass",
-        # },
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres', # database name
+        'NAME': 'postgres',  # database name
         'USER': 'postgres',
         'PASSWORD': dbpass,
         'HOST': 'fatcork-database.cicgpz3nnmg8.us-east-2.rds.amazonaws.com',
