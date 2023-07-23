@@ -45,6 +45,19 @@ with open(filename, encoding="utf8", newline='') as csvfile:
         image_src = row[24]
         status = row[49]
 
+        print(f'{handle=}')
+        print(f'{title=}')
+        print(f'{vendor=}')
+        print(f'{product_category=}')
+        print(f'{product_type=}')
+        print(f'{tags=}')
+        print(f'{published=}')
+        print(f'{variant_sku=}')
+        print(f'{variant_price=}')
+        print(f'{variant_compare_at_price=}')
+        print(f'{image_src=}')
+        print(f'{status=}')
+
         quit()
 
         # if (product_type not in product_types):
