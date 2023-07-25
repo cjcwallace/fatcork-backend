@@ -159,5 +159,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-fatcorkbackend/fatcorkbackend/dbpass.py
-fatcorkbackend/credentials.py
+fatcorkbackend/config.json
