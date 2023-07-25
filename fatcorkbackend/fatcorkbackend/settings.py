@@ -21,20 +21,22 @@ SECRET_KEY = CONFIG["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = CONFIG["DEBUG"]
 FIELD_ENCRYPTION_KEY = CONFIG['FIELD_ENCRYPTION_KEY']
+SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
     'inventory.apps.InventoryConfig',
+    'phonenumber_field',
+    'encrypted_model_fields',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # 'fatcorkbackend',
     # 'inventory',
-    'phonenumber_field',
-    'encrypted_model_fields',
 ]
 
 MIDDLEWARE = [
