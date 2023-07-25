@@ -11,3 +11,6 @@
 │   │   ├── scripts => test scripts, some moved to inventory/management/commands folder
 ├── credentials.py
 └── manage.py
+
+
+eventually, use `git mv` to move the nested django files out of `fatcorkbackend` into `fatcork-backend`
