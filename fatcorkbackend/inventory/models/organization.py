@@ -12,6 +12,9 @@ class Organization(BaseModel):
 class Vendor(BaseModel):
     name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Member(BaseModel):
     name = models.CharField(max_length=64)
@@ -22,3 +25,6 @@ class Member(BaseModel):
         to='inventory.Cuvee',
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return f'{self.name}'

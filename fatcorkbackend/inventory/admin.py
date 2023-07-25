@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.apps import apps
 
-models = apps.get_models()
+app_config = apps.get_app_config('inventory')
+models = app_config.get_models()
 
 for model in models:
     try:

@@ -16,8 +16,9 @@ class ProductType(models.TextChoices):
 
 class ProductStatus(models.TextChoices):
     ACTIVE = 'AC', _('Active')
-    DRAFT = 'DR', _('Draft')
     ARCHIVED = 'AR', _('Archived')
+    DRAFT = 'DR', _('Draft')
+    NONE = 'NA', _('None')
 
 
 class Product(BaseModel):
@@ -55,6 +56,9 @@ class Product(BaseModel):
         blank=True,
     )
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class Cuvee(Product):
     vintage = models.CharField(max_length=128, null=True, blank=True)
@@ -67,3 +71,6 @@ class Cuvee(Product):
     smell = models.CharField(max_length=256, null=True, blank=True)
     taste = models.CharField(max_length=256, null=True, blank=True)
     pair = models.CharField(max_length=256, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.title}'
