@@ -22,6 +22,18 @@ class UserManager(BaseUserManager):
     def create_user(self, email_hash, password=None, **extra_fields):
         return self._create_user(email_hash, password, **extra_fields)
 
+    def create_superuser(self, email_hash, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email_hash, password, **extra_fields)
+
 
 class User(AbstractUser):
     username = None
@@ -29,3 +41,9 @@ class User(AbstractUser):
     last_name = EncryptedCharField(_('last name'), max_length=150, blank=True)
     email = EncryptedEmailField(_('Email Address'), unique=True)
     email_hash = HashField(_('Email Address'), max_length=125, unique=True)
+    USERNAME_FIELD = 'email_hash'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+    objects = UserManager()
+
+    def __str__(self):
+        return f'{"superuser | " if self.is_superuser else ""} {self.first_name} {self.last_name}'
