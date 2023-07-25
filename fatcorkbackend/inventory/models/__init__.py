@@ -1,4 +1,5 @@
 # flake8: noqa
-from .base import *
-from .inventory import *
-from .organization import *
+from inventory.models.base import *
+from inventory.models.inventory import *
+from inventory.models.organization import *
+from inventory.models.user import *
