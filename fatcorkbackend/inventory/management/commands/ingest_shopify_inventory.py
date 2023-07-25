@@ -31,9 +31,10 @@ class Command(BaseCommand):
         }
 
         product_status = {
-            'Archived': ProductStatus.ARCHIVED,
-            'Draft': ProductStatus.DRAFT,
-            'Active': ProductStatus.ACTIVE,
+            'active': ProductStatus.ACTIVE,
+            'archived': ProductStatus.ARCHIVED,
+            'draft': ProductStatus.DRAFT,
+            '': ProductStatus.NONE,
         }
 
         col_attrs = {}
@@ -51,11 +52,11 @@ class Command(BaseCommand):
                 tags = row[6]
                 published = row[7]
                 variant_sku = row[14]
-                variant_price = row[19]
-                variant_compare_at_price = row[20]
+                variant_price = float(row[19] or 0.0)
+                variant_compare_at_price = float(row[20] or 0.0)
                 image_src = row[24]
-                status = row[49]
-
+                status = product_status[row[49]]
+                print('================ NEW BOTTLE =================')
                 print(f'{handle=}')
                 print(f'{title=}')
                 print(f'{vendor=}')
@@ -73,25 +74,29 @@ class Command(BaseCommand):
                     print(f'Skipping product {product_type}')
                     continue
 
+                product_type = product_types[row[5]]
                 vender_obj = Vendor.objects.get_or_create(name=vendor)
-                status_obj = product_status[status]
 
                 try:
                     cuvee = Cuvee.objects.get(handle=handle)
+                    print(f'{cuvee.handle} already created')
                 except Cuvee.DoesNotExist:
+                    if published == 'true':
+                        published_val = True
+                    else:
+                        published_val = False
                     Cuvee.objects.create(
                         handle=handle,
                         title=title,
-                        vendor=vender_obj,
+                        vendor=vender_obj[0],
                         product_category=product_category,
                         type=product_type,
-                        published=published,
+                        published=published_val,
                         variant_sku=variant_sku,
                         variant_price=variant_price,
                         variant_compare_at_price=variant_compare_at_price,
                         image_src=image_src,
-                        status=status_obj,
+                        status=status,
                     )
-                    cuvee.save()
 
         print(json.dumps(col_attrs, indent=2))
