@@ -21,16 +21,28 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
 
-from inventory.views.inventory import CuveeViewSet
+from inventory.views.inventory import (
+    CuveeViewSet,
+    CuveeView,
+    CuveeListView,
+    VendorView,
+    VendorListView,
+)
+
 
 router = routers.DefaultRouter()
 router.register(r'cuvees', CuveeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inventory/', include('inventory.urls')),
+    # path('inventory/', include('inventory.urls')),
     path('', RedirectView.as_view(url='inventory/', permanent=True)),
     path('api-auth/', include('rest_framework.urls')),  # browsable API
+
+    path('cuvee_list/', CuveeListView.as_view(), name='cuvee-list-view'),
+    path('cuvee/<int:cuvee_id>', CuveeView, name='cuvee-view'),
+    path('vendor_list/', VendorListView.as_view(), name='vendor-list-view'),
+    path('vendor/<int:vendor_id>', VendorView.as_view(), name='vendor-view'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
