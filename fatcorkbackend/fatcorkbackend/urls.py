@@ -39,10 +39,10 @@ urlpatterns = [
     path('', RedirectView.as_view(url='inventory/', permanent=True)),
     path('api-auth/', include('rest_framework.urls')),  # browsable API
 
-    path('cuvee_list/', CuveeListView.as_view(), name='cuvee-list-view'),
-    path('cuvee/<int:cuvee_id>', CuveeView, name='cuvee-view'),
-    path('vendor_list/', VendorListView.as_view(), name='vendor-list-view'),
-    path('vendor/<int:vendor_id>', VendorView.as_view(), name='vendor-view'),
+    path('cuvee_list/', CuveeListView.as_view(), name='cuvee_list'),
+    path('cuvee/<int:pk>', CuveeView.as_view(), name='cuvee'),
+    path('vendor_list/', VendorListView.as_view(), name='vendor_list'),
+    path('vendor/<int:pk>', VendorView.as_view(), name='vendor'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

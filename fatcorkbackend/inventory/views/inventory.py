@@ -1,11 +1,8 @@
 # flake8: noqa
 
-from django.http import HttpResponse
-from django.views import View
-from django.views.generic.base import TemplateView
-from rest_framework import status, viewsets
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status, views, viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
 from inventory.models import Cuvee, Vendor
 from inventory.serializers import CuveeSerializer, CuveeListSerializer, VendorSerializer
@@ -22,31 +19,37 @@ class VendorViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
 
-@api_view(('GET',))
-class CuveeView(View):
-    def get(self, request, *args, **kwargs):
-        cuvee = Cuvee.objects.filter(id=kwargs['cuvee_id']).first()
+class CuveeView(views.APIView):
+    @csrf_exempt
+    def get(self, request, pk):
+        try:
+            cuvee = Cuvee.objects.get(id=pk)
+        except Cuvee.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         data = CuveeSerializer(cuvee).data
-        content = {'data': data}
-        return Response(content, status=status.HTTP_200_OK)
-        # return HttpResponse(f'found cuvee {args} | {kwargs} | {cuvee} | {data}')
+        return Response(data, status=status.HTTP_200_OK)
 
-
-class CuveeListView(View):
-    def get(self, request, *args, **kwargs):
+class CuveeListView(views.APIView):
+    @csrf_exempt
+    def get(self, request):
         data = CuveeListSerializer(Cuvee.objects.all().order_by('id'), many=True).data
-        return HttpResponse(data)
+        return Response(data, status=status.HTTP_200_OK)
 
 
-class VendorView(View):
-    def get(self, request, *args, **kwargs):
-        vendor = Vendor.objects.filter(id=kwargs['vendor_id']).first()
+class VendorView(views.APIView):
+    @csrf_exempt
+    def get(self, request, pk):
+        try:
+            vendor = Vendor.objects.get(id=pk)
+        except Vendor.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         data = VendorSerializer(vendor).data
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)
 
-
-class VendorListView(View):
-    def get(self, request, *args, **kwargs):
+class VendorListView(views.APIView):
+    @csrf_exempt
+    def get(self, request):
         data = VendorSerializer(Vendor.objects.all().order_by('id'), many=True).data
-        return HttpResponse(data)
-
+        return Response(data)

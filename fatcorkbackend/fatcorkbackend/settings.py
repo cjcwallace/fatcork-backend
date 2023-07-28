@@ -22,12 +22,16 @@ SECRET_KEY = CONFIG["SECRET_KEY"]
 DEBUG = CONFIG["DEBUG"]
 FIELD_ENCRYPTION_KEY = CONFIG['FIELD_ENCRYPTION_KEY']
 SITE_ID = 1
+ALLOWED_HOSTS = CONFIG['ALLOWED_HOSTS']
+CORS_ORIGIN_WHITELIST = CONFIG['CORS_ORIGIN_WHITELIST']
 
 # Application definition
 INSTALLED_APPS = [
     'inventory.apps.InventoryConfig',
     'phonenumber_field',
     'encrypted_model_fields',
+    'rest_framework',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,13 +53,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
 
 ROOT_URLCONF = 'fatcorkbackend.urls'
 

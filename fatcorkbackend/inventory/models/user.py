@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from encrypted_model_fields.fields import EncryptedCharField, EncryptedEmailField
 
 from inventory.utilities import HashField
+from inventory.models import BaseModel
 
 
 class UserManager(BaseUserManager):
@@ -47,3 +48,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{"superuser | " if self.is_superuser else ""} {self.first_name} {self.last_name}'
+
+
+class Review(BaseModel):
+    pass
