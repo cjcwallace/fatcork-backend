@@ -51,4 +51,9 @@ class User(AbstractUser):
 
 
 class Review(BaseModel):
+    """
+    fields:
+        fk User
+
+    """
     pass

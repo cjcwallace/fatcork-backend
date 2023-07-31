@@ -61,6 +61,11 @@ class Product(BaseModel):
 
 
 class Cuvee(Product):
+    """
+    future proofing fields: alcohol_pct
+
+    TODO: can we populate the 'pair' field and create queries on it?
+    """
     vintage = models.CharField(max_length=128, null=True, blank=True)
     alcohol_pct = models.SmallIntegerField(null=True, blank=True)
     varietal = models.CharField(max_length=128, null=True, blank=True)

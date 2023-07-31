@@ -8,12 +8,18 @@ from inventory.models import Cuvee, Vendor
 from inventory.serializers import CuveeSerializer, CuveeListSerializer, VendorSerializer
 
 class CuveeViewSet(viewsets.ModelViewSet):
+    """
+    Do we need the view set? Cuvees should be fetched by users but not modified/created
+    """
     serializer_class = CuveeSerializer
     queryset = Cuvee.objects.all()
     http_method_names = ['get']
 
 
 class VendorViewSet(viewsets.ModelViewSet):
+    """
+    Do we need the view set? Vendors should be fetched by users but not modified/created
+    """
     serializer_class = VendorSerializer
     queryset = Vendor.objects.all()
     http_method_names = ['get']
